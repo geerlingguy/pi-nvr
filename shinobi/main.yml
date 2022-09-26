@@ -1,0 +1,13 @@
+---
+- hosts: dvr
+  become: true
+
+  pre_tasks:
+    - name: Update apt cache.
+      ansible.builtin.apt: update_cache=yes cache_valid_time=600
+
+  tasks:
+    - meta: noop
+
+    # TODO: Install ffmpeg via apt
+    # TODO: https://gitlab.com/Shinobi-Systems/Shinobi-Installer/raw/master/shinobi-docker.sh
