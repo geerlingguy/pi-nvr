@@ -1,0 +1,2 @@
+database:
+  path: /db/frigate.db

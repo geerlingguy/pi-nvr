@@ -1,0 +1,18 @@
+---
+- hosts: dvr
+  become: true
+
+  vars:
+    docker_users: ['pi']
+
+  pre_tasks:
+    - name: Update apt cache.
+      ansible.builtin.apt: update_cache=yes cache_valid_time=600
+
+  roles:
+    - geerlingguy.docker
+
+  tasks:
+    - meta: noop
+
+    # TODO: gpu_mem=256 in the bottom of /boot/config.txt
