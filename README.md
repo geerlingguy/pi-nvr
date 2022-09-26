@@ -31,6 +31,7 @@ Here are my notes on different options for DVR/NVR/CCTV solutions that could run
   - Shinobi (https://shinobi.video)
     - Guide: https://www.heystephenwood.com/2018/08/shinobi-on-raspberry-pi-3-b.html
     - Seems popular, well supported
+    - Docker image only available for arm32v7 right now (see: https://github.com/geerlingguy/pi-nvr/issues/1)
   - Frigate (https://docs.frigate.video)
     - Use with Google Coral TPU... https://docs.frigate.video/hardware
     - Runs in Docker, though storage configuration can be annoying

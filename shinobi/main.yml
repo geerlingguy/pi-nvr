@@ -2,12 +2,51 @@
 - hosts: dvr
   become: true
 
+  handlers:
+    - name: Restart shenobi
+      community.docker.docker_compose:
+        project_src: "~/shinobi/"
+        build: false
+        restarted: true
+      become: false
+
   pre_tasks:
     - name: Update apt cache.
       ansible.builtin.apt: update_cache=yes cache_valid_time=600
 
   tasks:
-    - meta: noop
+    - name: Ensure pip is installed.
+      ansible.builtin.apt:
+        name: python3-pip
+        state: present
+
+    - name: Install required python libraries.
+      ansible.builtin.pip:
+        name:
+          - docker
+          - docker-compose
+        state: present
+
+    - name: Create Shinobi folder on Pi.
+      ansible.builtin.file:
+        path: "~/shinobi"
+        state: directory
+        mode: '0755'
+      become: false
+
+    - name: Copy Pi-hole docker-compose template to Pi.
+      ansible.builtin.template:
+        src: docker-compose.yml
+        dest: "~/shinobi/docker-compose.yml"
+        mode: '0640'
+      become: false
+      notify: Restart shenobi
+
+    - name: Ensure Shinobi is running.
+      community.docker.docker_compose:
+        project_src: "~/shinobi/"
+        build: false
+      become: false
 
     # TODO: Install ffmpeg via apt
     # TODO: https://gitlab.com/Shinobi-Systems/Shinobi-Installer/raw/master/shinobi-docker.sh
