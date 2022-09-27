@@ -24,6 +24,21 @@ TODO. Install Ansible, run playbook.
 ansible-playbook main.yml
 ```
 
+Then run specific NVR playbook, e.g.
+
+```
+ansible-playbook shinobi/main.yml
+```
+
+### Shinobi First-time setup
+
+After the playbook completes, visit the URL of your NVR, at the `/super` path, e.g. `http://dvr.local:8080/super`. The default login credentials are:
+
+  - Email: `admin@shinobi.video`
+  - Password: `admin`
+
+TODO.
+
 ## Raspberry Pi NVR Solutions
 
 Here are my notes on different options for DVR/NVR/CCTV solutions that could run on the Pi:

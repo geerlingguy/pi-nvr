@@ -1,4 +1,4 @@
-FROM arm32v7/node:12.18.3-buster-slim
+FROM arm64v8/node:12.18.3-buster-slim
 
 ENV DB_USER=majesticflame \
     DB_PASSWORD='' \
@@ -83,14 +83,15 @@ RUN apt install -y \
 
 
 WORKDIR /home/Shinobi
-COPY . .
+RUN git clone https://gitlab.com/Shinobi-Systems/Shinobi.git .
+# COPY . .
 #RUN rm -rf /home/Shinobi/plugins
-COPY ./plugins  /home/Shinobi/plugins
+# COPY ./plugins  /home/Shinobi/plugins
 RUN chmod -R 777 /home/Shinobi/plugins
 RUN npm i npm@latest -g && \
     npm install pm2 -g && \
     npm install --unsafe-perm
-COPY ./Docker/pm2.yml ./
+RUN cp Docker/pm2.yml ./
 
 # Copy default configuration files
 # COPY ./config/conf.json ./config/super.json /home/Shinobi/

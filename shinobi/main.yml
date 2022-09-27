@@ -34,13 +34,16 @@
         mode: '0755'
       become: false
 
-    - name: Copy Shinobi docker-compose template to Pi.
-      ansible.builtin.template:
-        src: docker-compose.yml
-        dest: "~/shinobi/docker-compose.yml"
+    - name: Copy Shenobi files to Pi.
+      ansible.builtin.copy:
+        src: "{{ item }}"
+        dest: "~/shinobi/{{ item }}"
         mode: '0640'
       become: false
       notify: Restart shenobi
+      with_items:
+        - docker-compose.yml
+        - Dockerfile
 
     - name: Ensure Shinobi is running.
       community.docker.docker_compose:
