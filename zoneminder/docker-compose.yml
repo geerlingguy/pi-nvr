@@ -1,0 +1,16 @@
+version: "3"
+services:
+  zoneminder:
+    image: nardo86/zoneminder:1.36
+    container_name: zoneminder
+    environment:
+      - TZ=America/Chicago
+      - SELFSIGNED=1
+      - FQDN=nvr.local
+    shm_size: "256mb"
+    volumes:
+      - $HOME/zoneminder/config:/config
+      - $HOME/zoneminder/zmcache:/var/cache/zoneminder
+    ports:
+      - 443:443
+    restart: unless-stopped

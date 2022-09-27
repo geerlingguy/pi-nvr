@@ -1,10 +1,10 @@
 version: "3"
 services:
   shinobi:
-    # TODO: There only seems to be an arm32v7 image available right now.
     # See: https://github.com/geerlingguy/pi-nvr/issues/1
-    image: registry.gitlab.com/shinobi-systems/shinobi:dev
-    container_name: Shinobi
+    # image: registry.gitlab.com/shinobi-systems/shinobi:dev
+    build: .
+    container_name: shinobi
     environment:
       - PLUGIN_KEYS=''
       - SSL_ENABLED='false'

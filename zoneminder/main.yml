@@ -3,9 +3,9 @@
   become: true
 
   handlers:
-    - name: Restart shenobi
+    - name: Restart zoneminder
       community.docker.docker_compose:
-        project_src: "~/shinobi/"
+        project_src: "~/zoneminder/"
         build: false
         restarted: true
       become: false
@@ -27,26 +27,23 @@
           - docker-compose
         state: present
 
-    - name: Create Shinobi folder on Pi.
+    - name: Create ZoneMinder folder on Pi.
       ansible.builtin.file:
-        path: "~/shinobi"
+        path: "~/zoneminder"
         state: directory
         mode: '0755'
       become: false
 
-    - name: Copy Shinobi docker-compose template to Pi.
+    - name: Copy ZoneMinder docker-compose template to Pi.
       ansible.builtin.template:
         src: docker-compose.yml
-        dest: "~/shinobi/docker-compose.yml"
+        dest: "~/zoneminder/docker-compose.yml"
         mode: '0640'
       become: false
-      notify: Restart shenobi
+      notify: Restart zoneminder
 
-    - name: Ensure Shinobi is running.
+    - name: Ensure ZoneMinder is running.
       community.docker.docker_compose:
-        project_src: "~/shinobi/"
+        project_src: "~/zoneminder/"
         build: false
       become: false
-
-    # TODO: Install ffmpeg via apt
-    # TODO: https://gitlab.com/Shinobi-Systems/Shinobi-Installer/raw/master/shinobi-docker.sh

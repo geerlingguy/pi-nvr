@@ -40,6 +40,7 @@ Here are my notes on different options for DVR/NVR/CCTV solutions that could run
   - ZoneMinder (https://zoneminder.com)
     - Pi guide: https://wiki.zoneminder.com/Raspberry_Pi_4_-_Raspbian
     - Old and trusted... but also harder to configure
+    - No official Docker images for arm64v8, but [this one](https://registry.hub.docker.com/r/nardo86/zoneminder) seems okay.
   - MotionEyeOS (https://github.com/motioneye-project/motioneyeos)
     - Latest release from October 2020... which is kinda old. Dev work to get on Python 3...
   - Orchid Core from IPConfigure (https://www.ipconfigure.com/download)
