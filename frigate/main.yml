@@ -30,26 +30,41 @@
           - docker-compose
         state: present
 
-    - name: Create Frigate folder on Pi.
+    - name: Create Frigate folders on Pi.
       ansible.builtin.file:
-        path: "~/frigate"
+        path: "{{ item }}"
         state: directory
         mode: '0755'
       become: false
+      with_items:
+        - "~/frigate"
+        - "~/frigate/mosquitto"
+        - "~/frigate/mosquitto/logs"
+      register: create_folders
 
     - name: Copy Frigate files to Pi.
       ansible.builtin.template:
-        src: "{{ item }}"
+        src: "{{ item }}.j2"
         dest: "~/frigate/{{ item }}"
         mode: '0640'
       become: false
       notify: Restart frigate
       with_items:
-        - docker-compose.yml.j2
-        - frigate.yml.j2
+        - docker-compose.yml
+        - frigate.yml
+        - mosquitto/mosquitto.conf
+        - mosquitto/mqtt-auth.conf
+        - mosquitto/mqtt-acl.conf
 
     - name: Ensure Frigate is running.
       community.docker.docker_compose:
         project_src: "~/frigate/"
         build: false
       become: false
+
+    # TODO: This is the right command... but it doesn't seem to be running.
+    - name: Encrypt the mosquitto passwords.
+      community.docker.docker_container_exec:
+        container: mqtt
+        command: 'mosquitto_passwd -U /mosquitto/config/mqtt-auth.conf'
+      when: frigate_configure_mqtt_broker

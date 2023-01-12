@@ -44,6 +44,8 @@ The Frigate `docker-compose` configures the Frigate storage volume to be synced 
 
 In my case, I either set up a RAID volume or a single disk (NVMe, SSD, or HDD), and made sure it was mounted at the path `/mnt/frigate` before running the playbook.
 
+> There are a number of great guides for Frigate out there, but I am indebted especially to [this Frigate guide from Simplepush](https://www.simplepush.io/blog/frigate-nvr-push-notification-guide#run-mosquitto-mqtt-in-docker) for a broad understanding of all Frigate's moving parts.
+
 ### Shinobi setup
 
 After the playbook completes, visit the URL of your NVR, at the `/super` path, e.g. `http://dvr.local:8080/super`. The default login credentials are:

@@ -3,7 +3,7 @@
   become: true
 
   vars:
-    docker_users: ['pi']
+    docker_users: ['{{ ansible_user }}']
 
   handlers:
     - name: reboot pi

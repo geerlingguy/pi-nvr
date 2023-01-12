@@ -1,0 +1,10 @@
+persistence true
+persistence_location /mosquitto/data
+
+log_dest file /mosquitto/logs/mosquitto.log
+log_dest stdout
+
+listener 1883
+
+allow_anonymous false
+password_file /mosquitto/config/mqtt-auth.conf
