@@ -4,16 +4,16 @@ services:
     container_name: frigate
     # privileged: true
     restart: unless-stopped
+    # See: https://github.com/blakeblackshear/frigate/issues/5046
     image: blakeblackshear/frigate:stable
-    shm_size: "64mb" # update for your cameras based on calculation above
+    shm_size: "64mb"
     devices:
-      - /dev/bus/usb:/dev/bus/usb # passes the USB Coral, needs to be modified for other versions
-      - /dev/apex_0:/dev/apex_0 # passes a PCIe Coral, follow driver instructions here https://coral.ai/docs/m2/get-started/#2a-on-linux
-      - /dev/dri/renderD128 # for intel hwaccel, needs to be updated for your hardware
+      - /dev/bus/usb:/dev/bus/usb # passes the USB Coral
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./frigate.yml:/config/config.yml:ro
-      - /media/frigate
+      - {{ frigate_storage_path }}:/media/frigate
+      - /db
       - type: tmpfs # Optional: 1GB of memory, reduces SSD/SD Card wear
         target: /tmp/cache
         tmpfs:
@@ -22,4 +22,4 @@ services:
       - "5000:5000"
       - "1935:1935" # RTMP feeds
     environment:
-      FRIGATE_RTSP_PASSWORD: "password"
+      FRIGATE_RTSP_PASSWORD: "{{ frigate_rtsp_password }}"

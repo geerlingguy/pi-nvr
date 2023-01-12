@@ -1,43 +1,55 @@
 # Raspberry Pi NVR Configuration
 
-This repository contains a Raspberry Pi NVR configuration so a Pi 4 or CM4 can be used as an NVR, or Network Video Recorder, for capturing and managing CCTV/IP camera streams.
+This repository contains Raspberry Pi NVR configurations so a Pi 4 or CM4 can be used as an NVR, or Network Video Recorder, for capturing and managing CCTV/IP camera streams.
 
-Currently I'm experimenting with which DVR application I'm going to use. So I'm not updating the README further until I pick something.
+Currently I'm experimenting with many different DVR applications.
 
-See the 'NVR Solutions' section below for current thoughts.
+See the 'NVR Solutions' section below for my thoughts on different applications, and read through the GitHub issues to see current progress in testing.
 
 ## Raspberry Pi Setup
 
-For an NVR, you're going to want to use storage other than built-in eMMC (CM4 only) or microSD (Lite CM4 or Pi 4 model B). For my own purposes, I'm booting a Pi off of an NVMe drive, using the new [native NVMe boot option](https://www.jeffgeerling.com/blog/2021/raspberry-pi-can-boot-nvme-ssds-now) on the CM4.
+For an NVR, you should use storage other than built-in eMMC (CM4 only) or microSD (Lite CM4 or Pi 4 model B). For my own purposes, I'm booting a Pi off of an NVMe drive, using the new [native NVMe boot option](https://www.jeffgeerling.com/blog/2021/raspberry-pi-can-boot-nvme-ssds-now) on the CM4.
 
 You also need a lot of storage—multiple TB of storage is best if you want any form of long-term archive.
 
-And finally, some applications like Frigate work great if you add on something like Google Coral TPU via USB. But for now I'm not doing that.
+And finally, some applications like Frigate work great if you add on something like Google Coral TPU via USB.
 
 To prep the Pi, make sure you are running the latest version of Raspberry Pi OS, can reach the Pi over SSH, and can log into it with something like `ssh pi@dvr.local` (that's the default address I'm using to test).
 
 ## Installation
 
-TODO. Install Ansible, run playbook.
+Make sure you have Ansible installed (I install with Pip: `pip3 install ansible`).
+
+Copy the `example.inventory.ini` to `inventory.ini` and change the IP address under the `[dvr]` section to the IP or hostname of your Pi, and the username after `ansible_user` to your Pi username.
+
+Run the Ansible playbook to prepare the Pi for NVR applications:
 
 ```
 ansible-playbook main.yml
 ```
 
+> Ideally you will have set up an [SSH key pair](https://www.raspberrypi-spy.co.uk/2019/02/setting-up-ssh-keys-on-the-raspberry-pi/) to access the Pi without entering a password. If you need to enter a password to SSH into the Pi, add `-K` after the `ansible-*` commands and Ansible will prompt you for the password when it runs.
+
 Then run specific NVR playbook, e.g.
 
 ```
-ansible-playbook shinobi/main.yml
+ansible-playbook frigate/main.yml
 ```
 
-### Shinobi First-time setup
+Be sure to have storage settings configured (e.g. any network or local mounts) prior to starting any of these applications.
+
+### Frigate setup
+
+The Frigate `docker-compose` configures the Frigate storage volume to be synced to `/mnt/frigate`, so you should either mount a network share in that path, or create a local volume there.
+
+In my case, I either set up a RAID volume or a single disk (NVMe, SSD, or HDD), and made sure it was mounted at the path `/mnt/frigate` before running the playbook.
+
+### Shinobi setup
 
 After the playbook completes, visit the URL of your NVR, at the `/super` path, e.g. `http://dvr.local:8080/super`. The default login credentials are:
 
   - Email: `admin@shinobi.video`
   - Password: `admin`
-
-TODO.
 
 ## Raspberry Pi NVR Solutions
 
