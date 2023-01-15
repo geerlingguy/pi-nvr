@@ -5,6 +5,7 @@ services:
     # privileged: true
     restart: unless-stopped
     # See: https://github.com/blakeblackshear/frigate/issues/5046
+    # image: ghcr.io/blakeblackshear/frigate:stable
     image: blakeblackshear/frigate:stable
     shm_size: "64mb"
     devices:
