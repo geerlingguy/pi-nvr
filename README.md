@@ -1,5 +1,7 @@
 # Raspberry Pi NVR Configuration
 
+[![CI](https://github.com/geerlingguy/pi-nvr/actions/workflows/ci.yml/badge.svg)](https://github.com/geerlingguy/pi-nvr/actions/workflows/ci.yml)
+
 This repository contains Raspberry Pi NVR configurations so a Pi 4 or CM4 can be used as an NVR, or Network Video Recorder, for capturing and managing CCTV/IP camera streams.
 
 Currently I'm experimenting with many different DVR applications.
