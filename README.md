@@ -30,7 +30,7 @@ Run the Ansible playbook to prepare the Pi for NVR applications:
 ansible-playbook main.yml
 ```
 
-> Ideally you will have set up an [SSH key pair](https://www.raspberrypi-spy.co.uk/2019/02/setting-up-ssh-keys-on-the-raspberry-pi/) to access the Pi without entering a password. If you need to enter a password to SSH into the Pi, add `-K` after the `ansible-*` commands and Ansible will prompt you for the password when it runs.
+> Ideally you will have set up an [SSH key pair](https://www.raspberrypi-spy.co.uk/2019/02/setting-up-ssh-keys-on-the-raspberry-pi/) to access the Pi without entering a password. If you need to enter a password to SSH into the Pi, add `-k` after the `ansible-*` commands and Ansible will prompt you for the password when it runs.
 
 Then run specific NVR playbook, e.g.
 
