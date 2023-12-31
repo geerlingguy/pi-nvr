@@ -2,21 +2,32 @@
 
 [![CI](https://github.com/geerlingguy/pi-nvr/actions/workflows/ci.yml/badge.svg)](https://github.com/geerlingguy/pi-nvr/actions/workflows/ci.yml)
 
-This repository contains Raspberry Pi NVR configurations so a Pi 4 or CM4 can be used as an NVR, or Network Video Recorder, for capturing and managing CCTV/IP camera streams.
+This repository contains Raspberry Pi NVR (Network Video Recorder) configurations, for capturing and managing CCTV/IP camera streams.
 
-Currently I'm experimenting with many different DVR applications.
+Currently supported Raspberry Pi models:
+
+  - Raspberry Pi 5
+  - Raspberry Pi 4
+  - Raspberry Pi Compute Module 4 (CM4)
+
+## Current Status
+
+I'm experimenting with many different DVR applications.
 
 See the 'NVR Solutions' section below for my thoughts on different applications, and read through the GitHub issues to see current progress in testing.
 
 ## Raspberry Pi Setup
 
-For an NVR, you should use storage other than built-in eMMC (CM4 only) or microSD (Lite CM4 or Pi 4 model B). For my own purposes, I'm booting a Pi off of an NVMe drive, using the new [native NVMe boot option](https://www.jeffgeerling.com/blog/2021/raspberry-pi-can-boot-nvme-ssds-now) on the CM4.
+For an NVR, you should use storage other than built-in eMMC (CM4 only) or microSD (Pi 5/4 or Lite CM4). For my own purposes, I'm booting a Pi off of an NVMe drive. See my articles on how to do this:
 
-You also need a lot of storage—multiple TB of storage is best if you want any form of long-term archive.
+  - [NVMe Boot on Raspberry Pi 5](https://www.jeffgeerling.com/blog/2023/nvme-ssd-boot-raspberry-pi-5)
+  - [NVMe Boot on Compute Module 4](https://www.jeffgeerling.com/blog/2021/raspberry-pi-can-boot-nvme-ssds-now)
 
-And finally, some applications like Frigate work great if you add on something like Google Coral TPU via USB.
+You also need a lot of storage. Multiple TB of storage is best if you want any form of long-term archive.
 
-To prep the Pi, make sure you are running the latest version of Raspberry Pi OS, can reach the Pi over SSH, and can log into it with something like `ssh pi@dvr.local` (that's the default address I'm using to test).
+And finally, some applications like Frigate are much more powerful with the addition of a [Coral TPU](https://amzn.to/3HlXlMp) (note: these are hard to get at list price currently).
+
+To prep the Pi, make sure you're running the latest version of Raspberry Pi OS, can reach the Pi over SSH, and can log into it with something like `ssh pi@dvr.local` (that's the default address I'm using to test).
 
 ## Installation
 

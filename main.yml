@@ -17,6 +17,7 @@
     - geerlingguy.docker
 
   tasks:
+    # Note: This does not apply to Raspbery Pi 5.
     - name: Increase gpu_mem to maximum in config.txt
       community.general.ini_file:
         path: /boot/config.txt
