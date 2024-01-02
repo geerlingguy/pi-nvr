@@ -11,15 +11,25 @@ detectors:
     type: edgetpu
     device: usb
 cameras:
-  office:
+  basement:
     ffmpeg:
+      output_args:
+        record: -f segment -segment_time 10 -segment_format mp4 -reset_timestamps 1 -strftime 1 -c:v copy -tag:v hvc1 -bsf:v hevc_mp4toannexb -c:a aac
+        rtmp: -c:v copy -c:a aac -f flv
       inputs:
-        - path: rtsp://10.0.10.10:554/rtsp
+        - path: "{{ frigate_camera_path }}"
           roles:
             - detect
+            - record
             - rtmp
     rtmp:
-      enabled: False # RTMP should be disabled if your stream is not H264
+      enabled: False
     detect:
-      width: 1280 # update for your camera's resolution
-      height: 720 # update for your camera's resolution
+      width: 3840
+      height: 2160
+record:
+  enabled: {{ frigate_record_enabled }}
+  expire_interval: 60
+  retain:
+    days: {{ frigate_record_retain_days }}
+    mode: {{ frigate_record_retain_mode }}

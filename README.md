@@ -33,7 +33,9 @@ To prep the Pi, make sure you're running the latest version of Raspberry Pi OS, 
 
 Make sure you have Ansible installed (I install with Pip: `pip3 install ansible`).
 
-Copy the `example.inventory.ini` to `inventory.ini` and change the IP address under the `[dvr]` section to the IP or hostname of your Pi, and the username after `ansible_user` to your Pi username.
+Copy the `example.inventory.ini` file to `inventory.ini` and change the IP address under the `[dvr]` section to the IP or hostname of your Pi, and the username after `ansible_user` to your Pi username.
+
+Copy the `example.config.yml` to `config.yml` and modify other settings to your liking.
 
 Run the Ansible playbook to prepare the Pi for NVR applications:
 

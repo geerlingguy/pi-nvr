@@ -7,17 +7,31 @@
 
   handlers:
     - name: Restart frigate
-      community.docker.docker_compose:
-        project_src: "~/frigate/"
-        build: false
-        restarted: true
+      ansible.builtin.command:
+        cmd: docker compose --ansi never --progress plain --file docker-compose.yml restart
+        chdir: "~/frigate/"
       become: false
+      register: temp_compose_up
+      changed_when: true
 
   pre_tasks:
+    - name: Include custom configuration.
+      include_vars: "{{ item }}"
+      with_fileglob:
+        - "{{ playbook_dir }}/../config.yml"
+      tags: ['always']
+
     - name: Update apt cache.
-      ansible.builtin.apt: update_cache=yes cache_valid_time=600
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 600
 
   tasks:
+    - name: Ignore PEP 668 because it's silly.
+      ansible.builtin.file:
+        path: /usr/lib/python3.11/EXTERNALLY-MANAGED
+        state: absent
+
     - name: Ensure pip is installed.
       ansible.builtin.apt:
         name: python3-pip
@@ -25,9 +39,7 @@
 
     - name: Install required python libraries.
       ansible.builtin.pip:
-        name:
-          - docker
-          - docker-compose
+        name: docker
         state: present
 
     - name: Create Frigate folders on Pi.
@@ -56,11 +68,21 @@
         - mosquitto/mqtt-auth.conf
         - mosquitto/mqtt-acl.conf
 
-    - name: Ensure Frigate is running.
-      community.docker.docker_compose:
-        project_src: "~/frigate/"
-        build: false
+    # See: https://github.com/ansible-collections/community.docker/pull/586
+    - name: Validate Docker Compose file.
+      ansible.builtin.command:
+        cmd: docker compose --file docker-compose.yml config --quiet
+        chdir: "~/frigate/"
       become: false
+      changed_when: false
+
+    - name: Start containers
+      ansible.builtin.command:
+        cmd: docker compose --ansi never --progress plain --file docker-compose.yml up --detach
+        chdir: "~/frigate/"
+      become: false
+      register: temp_compose_up
+      changed_when: "'Started' in temp_compose_up.stdout"
 
     # TODO: This is the right command... but it doesn't seem to be running.
     - name: Encrypt the mosquitto passwords.
