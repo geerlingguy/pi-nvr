@@ -5,7 +5,8 @@ docker_install_compose: false
 
 # Frigate Settings
 # TODO: This camera path is specific to my C800 4K camera...
-frigate_camera_path: rtsp://username:password@camera_ip:554/H264/ch1/main/av_stream
+frigate_camera_path: >-
+  rtsp://username:password@camera_ip:554/H264/ch1/main/av_stream
 frigate_rtsp_password: changeme
 frigate_configure_mqtt_broker: true
 frigate_mosquitto_password: changeme
