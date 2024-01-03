@@ -5,7 +5,7 @@ services:
     # privileged: true
     restart: unless-stopped
     image: {{ frigate_container_image }}
-    shm_size: "64mb"
+    shm_size: "256mb"
     devices:
       - /dev/bus/usb:/dev/bus/usb # passes the USB Coral
     volumes:
