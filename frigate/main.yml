@@ -2,9 +2,6 @@
 - hosts: dvr
   become: true
 
-  vars:
-    frigate_storage_path: /mnt/frigate
-
   handlers:
     - name: Restart frigate
       ansible.builtin.command:

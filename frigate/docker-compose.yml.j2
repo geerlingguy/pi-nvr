@@ -4,7 +4,7 @@ services:
     container_name: frigate
     # privileged: true
     restart: unless-stopped
-    image: ghcr.io/blakeblackshear/frigate:stable
+    image: {{ frigate_container_image }}
     shm_size: "64mb"
     devices:
       - /dev/bus/usb:/dev/bus/usb # passes the USB Coral
