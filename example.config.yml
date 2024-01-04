@@ -3,16 +3,35 @@
 docker_install_compose_plugin: true
 docker_install_compose: false
 
+# Frigate Cameras
+frigate_cameras:
+  basement:
+    ffmpeg:
+      output_args:
+        record: "-f segment -segment_time 10 -segment_format mp4 -reset_timestamps 1 -strftime 1 -c:v copy -tag:v hvc1 -bsf:v hevc_mp4toannexb -c:a aac"
+      inputs:
+        - path: "rtsp://camera_username:{FRIGATE_RTSP_PASSWORD}@ip_address_here:554/H264/ch1/sub/av_stream"
+          roles:
+            - detect
+        - path: "rtsp://camera_username:{FRIGATE_RTSP_PASSWORD}@ip_address_here:554/H264/ch1/main/av_stream"
+          roles:
+            - record
+    rtmp:
+      enabled: False
+    detect:
+      width: 1280
+      height: 720
+    objects:
+      track:
+        - person
+
 # Frigate Settings
-# TODO: This camera path is specific to my C800 4K camera...
-frigate_camera_path: >-
-  rtsp://username:password@camera_ip:554/H264/ch1/main/av_stream
+frigate_rtsp_password: changeme
 frigate_storage_path: /mnt/frigate
 frigate_record_enabled: "True"
 frigate_record_retain_days: 90
 frigate_record_retain_mode: "all"
 frigate_container_image: ghcr.io/blakeblackshear/frigate:stable
-frigate_rtsp_password: changeme
 frigate_configure_mqtt_broker: true
 frigate_mosquitto_password: changeme
 frigate_mosquitto_extra_user: myusername

@@ -35,7 +35,7 @@ Make sure you have Ansible installed (I install with Pip: `pip3 install ansible`
 
 Copy the `example.inventory.ini` file to `inventory.ini` and change the IP address under the `[dvr]` section to the IP or hostname of your Pi, and the username after `ansible_user` to your Pi username.
 
-Copy the `example.config.yml` to `config.yml` and modify other settings to your liking.
+Copy the `example.config.yml` to `config.yml` and modify the settings to your liking.
 
 Run the Ansible playbook to prepare the Pi for NVR applications:
 
@@ -55,9 +55,9 @@ Be sure to have storage settings configured (e.g. any network or local mounts) p
 
 ### Frigate setup
 
-The Frigate `docker-compose` configures the Frigate storage volume to be synced to `/mnt/frigate`, so you should either mount a network share in that path, or create a local volume there.
+The Frigate `docker-compose` configures the Frigate storage volume to be synced to `/mnt/frigate`, so you should either mount a network share in that path, or make sure `/mnt` exists locally.
 
-In my case, I either set up a RAID volume or a single disk (NVMe, SSD, or HDD), and made sure it was mounted at the path `/mnt/frigate` before running the playbook.
+For example, set up a RAID volume or a single disk (NVMe, SSD, or HDD), and made sure it was mounted at the path `/mnt/frigate` before running the playbook.
 
 > There are a number of great guides for Frigate out there, but I am indebted especially to [this Frigate guide from Simplepush](https://www.simplepush.io/blog/frigate-nvr-push-notification-guide#run-mosquitto-mqtt-in-docker) for a broad understanding of all Frigate's moving parts.
 

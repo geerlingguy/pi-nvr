@@ -10,28 +10,11 @@ detectors:
   coral:
     type: edgetpu
     device: usb
+birdseye:
+  enabled: True
+  mode: continuous
 cameras:
-  basement:
-    ffmpeg:
-      output_args:
-        record: -f segment -segment_time 10 -segment_format mp4 -reset_timestamps 1 -strftime 1 -c:v copy -tag:v hvc1 -bsf:v hevc_mp4toannexb -c:a aac
-        rtmp: -c:v copy -c:a aac -f flv
-      inputs:
-        - path: "{{ frigate_camera_path_sub }}"
-          roles:
-            - detect
-        - path: "{{ frigate_camera_path_main }}"
-          roles:
-            - record
-            - clips
-    rtmp:
-      enabled: False
-    detect:
-      width: 3840
-      height: 2160
-    objects:
-      track:
-        - person
+  {{ frigate_cameras | to_nice_yaml(indent=2, width=9999) | indent(2) }}
 record:
   enabled: {{ frigate_record_enabled }}
   expire_interval: 60
