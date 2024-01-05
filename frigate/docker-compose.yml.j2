@@ -8,6 +8,9 @@ services:
     shm_size: "256mb"
     devices:
       - /dev/bus/usb:/dev/bus/usb # passes the USB Coral
+{% if frigate_hwaccel_args == "preset-rpi-64-h264" %}
+      - /dev/video10:/dev/video10
+{% endif %}
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./frigate.yml:/config/config.yml:ro

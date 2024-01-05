@@ -19,3 +19,7 @@ record:
   retain:
     days: {{ frigate_record_retain_days }}
     mode: {{ frigate_record_retain_mode }}
+{% if frigate_hwaccel_args %}
+ffmpeg:
+  hwaccel_args: {{ frigate_hwaccel_args }}
+{% endif %}
