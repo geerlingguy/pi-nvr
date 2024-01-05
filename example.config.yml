@@ -19,11 +19,17 @@ frigate_cameras:
     rtmp:
       enabled: False
     detect:
-      width: 1280
-      height: 720
+      width: 640
+      height: 360
     objects:
       track:
         - person
+
+# Frigate Detectors
+frigate_detectors:
+  coral:
+    type: edgetpu
+    device: usb
 
 # Frigate Settings
 frigate_rtsp_password: changeme

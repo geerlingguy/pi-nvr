@@ -7,9 +7,7 @@ mqtt:
   user: frigate
   password: {{ frigate_mosquitto_password }}
 detectors:
-  coral:
-    type: edgetpu
-    device: usb
+  {{ frigate_detectors | to_nice_yaml(indent=2, width=9999) | indent(2) }}
 birdseye:
   enabled: True
   mode: continuous
