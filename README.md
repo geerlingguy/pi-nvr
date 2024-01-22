@@ -16,6 +16,19 @@ I'm experimenting with many different DVR applications.
 
 See the 'NVR Solutions' section below for my thoughts on different applications, and read through the GitHub issues to see current progress in testing.
 
+## Cameras
+
+Currently, I use a mix of two different types of cameras in my setups:
+
+  - [ANNKE C800 4K PoE Security Camera](https://amzn.to/48N3VXT)
+  - [HIKVISION DS-2CD2122FWD-IS HD Outdoor PoE Security Camera](https://amzn.to/3S8o2Kv)
+
+The C800 does H.265-only (at 4K), while the DS-2CD2122FW does H.264-only (at 1080p), so between the two, I have tested a variety of recording scenarios.
+
+Both of these cameras also offer a substream at 640x360, which is more suitable for motion detection and object recognition, since you don't need full resolution for that purpose.
+
+Setup of PoE or other IP security cameras is outside of the scope of this README. The main goal is to get cameras covering as much or as little of your property as you would like.
+
 ## Raspberry Pi Setup
 
 For an NVR, you should use storage other than built-in eMMC (CM4 only) or microSD (Pi 5/4 or Lite CM4). For my own purposes, I'm booting a Pi off of an NVMe drive. See my articles on how to do this:
