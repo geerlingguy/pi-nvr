@@ -36,7 +36,7 @@ frigate_rtsp_password: changeme
 frigate_hwaccel_args: ""  # "preset-rpi-64-h264" for Pi 4
 frigate_storage_path: /mnt/frigate
 frigate_record_enabled: "True"
-frigate_record_retain_days: 90
+frigate_record_retain_days: 7
 frigate_record_retain_mode: "all"
 frigate_container_image: ghcr.io/blakeblackshear/frigate:stable
 frigate_configure_mqtt_broker: true
