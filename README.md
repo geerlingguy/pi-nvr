@@ -12,7 +12,9 @@ Currently supported Raspberry Pi models:
 
 ## Current Status
 
-I'm experimenting with many different DVR applications.
+I'm experimenting with many different DVR applications. From time to time, I create videos about NVR solutions, and I'll update this list with all the related videos:
+
+  - [I spy, with my little Pi...](https://www.youtube.com/watch?v=7wkVGcdI2vk) (on Frigate + Axzez Interceptor + CM4)
 
 See the 'NVR Solutions' section below for my thoughts on different applications, and read through the GitHub issues to see current progress in testing.
 
