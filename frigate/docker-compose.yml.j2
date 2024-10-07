@@ -4,6 +4,8 @@ services:
     container_name: frigate
     # privileged: true
     restart: unless-stopped
+    networks:
+      - frigate
     image: {{ frigate_container_image }}
     shm_size: "256mb"
     devices:
