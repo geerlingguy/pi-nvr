@@ -16,8 +16,6 @@ frigate_cameras:
         - path: "rtsp://camera_username:{FRIGATE_RTSP_PASSWORD}@ip_address_here:554/H264/ch1/main/av_stream"
           roles:
             - record
-    rtmp:
-      enabled: False
     detect:
       width: 640
       height: 360
