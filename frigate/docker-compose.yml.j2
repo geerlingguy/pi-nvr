@@ -23,7 +23,7 @@ services:
         tmpfs:
           size: 1000000000
     ports:
-      - "5000:5000"
+      - "8971:8971"
       - "1935:1935" # RTMP feeds
     environment:
       FRIGATE_RTSP_PASSWORD: "{{ frigate_rtsp_password }}"
