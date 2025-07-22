@@ -39,6 +39,7 @@ frigate_record_enabled: "True"
 frigate_record_retain_days: 7
 frigate_record_retain_mode: "all"
 frigate_container_image: ghcr.io/blakeblackshear/frigate:stable
+mqtt_container_image: eclipse-mosquitto:2
 frigate_configure_mqtt_broker: true
 frigate_mosquitto_password: changeme
 frigate_mosquitto_extra_user: myusername

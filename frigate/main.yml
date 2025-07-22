@@ -73,6 +73,14 @@
       become: false
       changed_when: false
 
+    - name: Pull images to make sure they're up-to-date
+      community.docker.docker_image:
+        name: "{{ item }}"
+        source: pull
+      loop:
+        - "{{ frigate_container_image }}"
+        - "{{ mqtt_container_image }}"
+
     - name: Start containers
       ansible.builtin.command:
         cmd: docker compose --ansi never --progress plain --file docker-compose.yml up --detach
