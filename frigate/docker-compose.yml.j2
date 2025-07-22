@@ -15,7 +15,7 @@ services:
 {% endif %}
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ./frigate.yml:/config/config.yml:ro
+      - ./frigate.yml:/config/config.yml:rw
       - {{ frigate_storage_path }}:/media/frigate
       - /db
       - type: tmpfs # Optional: 1GB of memory, reduces SSD/SD Card wear
