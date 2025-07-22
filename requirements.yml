@@ -1,0 +1,4 @@
+---
+# ansible-galaxy install --force -r requirements.yml
+roles:
+  - src: geerlingguy.docker
