@@ -3,13 +3,14 @@
   become: true
 
   handlers:
-    - name: Restart frigate
+    - name: Restart containers
       ansible.builtin.command:
         cmd: docker compose --ansi never --progress plain --file docker-compose.yml restart
         chdir: "~/frigate/"
       become: false
       register: temp_compose_up
       changed_when: true
+      listen: 'restart containers'
 
   pre_tasks:
     - name: Include custom configuration.
@@ -60,7 +61,7 @@
         dest: "~/frigate/{{ item }}"
         mode: '0640'
       become: false
-      notify: Restart frigate
+      notify: restart containers
       with_items:
         - docker-compose.yml
         - frigate.yml
@@ -116,3 +117,4 @@
       register: mosquitto_password_encrypt
       changed_when: false
       when: frigate_configure_mqtt_broker
+      notify: restart containers

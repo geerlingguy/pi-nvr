@@ -1,24 +1,35 @@
 database:
   path: /db/frigate.db
+
 mqtt:
   host: mqtt
   topic_prefix: frigate
   client_id: frigate
   user: frigate
   password: {{ frigate_mosquitto_password }}
+
 detectors:
   {{ frigate_detectors | to_nice_yaml(indent=2, width=9999) | indent(2) }}
+
+{% if frigate_model %}
+model:
+  {{ frigate_model | to_nice_yaml(indent=2, width=9999) | indent(2) }}
+{% endif %}
+
 birdseye:
   enabled: True
   mode: continuous
+
 cameras:
   {{ frigate_cameras | to_nice_yaml(indent=2, width=9999) | indent(2) }}
+
 record:
   enabled: {{ frigate_record_enabled }}
   expire_interval: 60
   retain:
     days: {{ frigate_record_retain_days }}
     mode: {{ frigate_record_retain_mode }}
+
 {% if frigate_hwaccel_args %}
 ffmpeg:
   hwaccel_args: {{ frigate_hwaccel_args }}
