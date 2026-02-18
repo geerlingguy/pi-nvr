@@ -26,8 +26,11 @@
   tasks:
     - name: Ignore PEP 668 because it's silly.
       ansible.builtin.file:
-        path: /usr/lib/python3.11/EXTERNALLY-MANAGED
+        path: "{{ item }}"
         state: absent
+      with_items:
+        - /usr/lib/python3.11/EXTERNALLY-MANAGED
+        - /usr/lib/python3.13/EXTERNALLY-MANAGED
 
     - name: Ensure pip is installed.
       ansible.builtin.apt:
@@ -89,9 +92,27 @@
       register: temp_compose_up
       changed_when: "'Started' in temp_compose_up.stdout"
 
-    # TODO: This is the right command... but it doesn't seem to be running.
+    - name: Install mosquitto utils.
+      ansible.builtin.package:
+        name:
+          - mosquitto
+          - mosquitto-clients
+        state: present
+      when: frigate_configure_mqtt_broker
+
+    - name: Ensure host-side mosquitto services are stopped.
+      ansible.builtin.service:
+        name: mosquitto
+        state: stopped
+        enabled: false
+      when: frigate_configure_mqtt_broker
+
+    # Must be done outside the container, since it won't start until done.
     - name: Encrypt the mosquitto passwords.
-      community.docker.docker_container_exec:
-        container: mqtt
-        command: 'mosquitto_passwd -U /mosquitto/config/mqtt-auth.conf'
+      ansible.builtin.command:
+        cmd: mosquitto_passwd -U mqtt-auth.conf
+        chdir: "~/frigate/mosquitto"
+      become: false
+      register: mosquitto_password_encrypt
+      changed_when: false
       when: frigate_configure_mqtt_broker

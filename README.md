@@ -27,22 +27,25 @@ Currently, I use a mix of two different types of cameras in my setups:
 
 The C800 does H.265-only (at 4K), while the DS-2CD2122FW does H.264-only (at 1080p), so between the two, I have tested a variety of recording scenarios.
 
-Both of these cameras also offer a substream at 640x360, which is more suitable for motion detection and object recognition, since you don't need full resolution for that purpose.
+Both of these cameras also offer a substream at 640x360, which is more suitable for motion detection and object recognition, since you don't need full resolution.
 
 Setup of PoE or other IP security cameras is outside of the scope of this README. The main goal is to get cameras covering as much or as little of your property as you would like.
 
 ## Raspberry Pi Setup
 
-For an NVR, you should use storage other than built-in eMMC (CM4 only) or microSD (Pi 5/4 or Lite CM4). For my own purposes, I'm booting a Pi off of an NVMe drive. See my articles on how to do this:
+For an NVR, you should use storage other than built-in eMMC or microSD cards. I recommend booting off an NVMe drive. See my articles on how to do this:
 
   - [NVMe Boot on Raspberry Pi 5](https://www.jeffgeerling.com/blog/2023/nvme-ssd-boot-raspberry-pi-5)
-  - [NVMe Boot on Compute Module 4](https://www.jeffgeerling.com/blog/2021/raspberry-pi-can-boot-nvme-ssds-now)
+  - [NVMe Boot on CM4](https://www.jeffgeerling.com/blog/2021/raspberry-pi-can-boot-nvme-ssds-now)
 
 You also need a lot of storage. Multiple TB of storage is best if you want any form of long-term archive.
 
-And finally, some applications like Frigate are much more powerful with the addition of a [Coral TPU](https://amzn.to/3HlXlMp) (note: these are hard to get at list price currently).
+Applications like Frigate are much more powerful with the addition of an AI accelerator / co-processor, like the:
 
-To prep the Pi, make sure you're running the latest version of Raspberry Pi OS, can reach the Pi over SSH, and can log into it with something like `ssh pi@dvr.local` (that's the default address I'm using to test).
+  - [Coral TPU](https://amzn.to/3HlXlMp)
+  - [AI HAT+ with Hailo 8L](https://www.pishop.us/product/raspberry-pi-ai-hat-13-tops/?searchid=0&search_query=ai+hat)
+
+To prep the Pi, make sure you're running the latest version of Raspberry Pi OS, can reach the Pi over SSH, and can log into it with something like `ssh username@dvr.local`.
 
 ## Installation
 
@@ -76,7 +79,15 @@ The Frigate `docker-compose` configures the Frigate storage volume to be synced 
 
 For example, set up a RAID volume or a single disk (NVMe, SSD, or HDD), and made sure it was mounted at the path `/mnt/frigate` before running the playbook.
 
-> There are a number of great guides for Frigate out there, but I am indebted especially to [this Frigate guide from Simplepush](https://www.simplepush.io/blog/frigate-nvr-push-notification-guide#run-mosquitto-mqtt-in-docker) for a broad understanding of all Frigate's moving parts.
+> There are a number of great guides for Frigate, but I am indebted especially to [this Frigate guide from Simplepush](https://www.simplepush.io/blog/frigate-nvr-push-notification-guide#run-mosquitto-mqtt-in-docker) for a broad understanding of all Frigate's moving parts.
+
+#### Frigate `config.yml`
+
+When deploying Frigate with this playbook, Frigate's `config.yml` file is mounted as 'read/write' inside the Docker container, so you can make changes in Frigate's UI and those changes will be reflected in the `config.yml` file on disk.
+
+Make sure you persist those changes back to your `config.yml` file in this project (e.g. inside `frigate_cameras`).
+
+If you don't, then the changes you make in Frigate's UI will be wiped out next time you run Ansible to configure or update Frigate.
 
 ### Shinobi setup
 
